@@ -1,0 +1,10 @@
+# flyctl launch added from .gitignore
+**/node_modules
+**/client/build
+**/.env
+
+# flyctl launch added from client/.gitignore
+client/**/node_modules
+client/**/client/build
+client/**/.env
+fly.toml

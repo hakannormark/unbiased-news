@@ -1,0 +1,24 @@
+app = "unbiased-news"
+primary_region = "fra"
+
+[build]
+builder = "paketobuildpacks/builder:base"
+buildpacks = ["gcr.io/paketo-buildpacks/nodejs"]
+
+[env]
+PORT = "5001"
+NODE_ENV = "production"
+
+[http_service]
+internal_port = 5001
+force_https = true
+auto_stop_machines = false
+auto_start_machines = true
+
+[deploy]
+strategy = "rolling"
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory_mb = 128
