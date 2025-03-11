@@ -80,12 +80,10 @@ app.get('/api/article', async (req, res) => {
   }
 });
 
-// Serve React frontend
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-// Catch-all route for React routing
+// Serve React frontend from server/public
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
