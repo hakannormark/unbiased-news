@@ -3,7 +3,7 @@
 // Define angles dynamically (name and description)
 export const angles = [
     { name: 'Vänster', description: 'vänsterinriktad vinkel som betonar progressiva värderingar, social rättvisa och statlig intervention' },
-    { name: 'Neutral', description: 'neutral vinkel som upprätthåller objektiv rapportering med balanserade fakta' },
+    { name: 'Mitten', description: 'neutral vinkel som upprätthåller objektiv rapportering med balanserade fakta' },
     { name: 'Höger', description: 'högerinriktad vinkel som fokuserar på traditionella värderingar, individuellt ansvar och begränsad statlig inblandning' },
     { name: 'Sport', description: 'sportvinkel som fokuserar på sport och försöker se allt ur ett sportperspektiv' },
     // Add more angles here as needed, e.g.:
