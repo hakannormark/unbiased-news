@@ -1,0 +1,22 @@
+body {
+    font-family: 'Georgia', serif; /* Default to Georgia */
+    color: #000;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Ensure links don’t default to blue */
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }

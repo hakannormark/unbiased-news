@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.perspective-buttons {
+  margin: 20px 0;
+}
+
+.perspective-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+}
+
+.articles {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.article {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.article h2 {
+  margin-top: 0;
+}
+
+.article a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.article a:hover {
+  text-decoration: underline;
+}
