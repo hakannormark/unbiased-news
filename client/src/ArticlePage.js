@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getRewritePrompt, getSummaryPrompt, angles } from './grokPrompts'; // Import angles
+import { getRewritePrompt, getSummaryPrompt, angles } from './grokPrompts';
 import './ArticlePage.css';
 
 const ArticlePage = () => {
   const { url } = useParams();
   const [article, setArticle] = useState(null);
-  const [version, setVersion] = useState(angles[0].name); // Default to first angle
+  const [version, setVersion] = useState(angles[0].name);
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [rewrittenContent, setRewrittenContent] = useState(null);
   const [isLoadingRewrite, setIsLoadingRewrite] = useState(false);
   const [summary, setSummary] = useState(null);
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
+  const [isSummaryExpanded, setIsSummaryExpanded] = useState(true);
 
   const GROK_API_KEY = process.env.REACT_APP_GROK_API_KEY;
 
@@ -85,7 +86,7 @@ const ArticlePage = () => {
       setIsLoadingRewrite(true);
       try {
         const originalText = article.content.map(section => section.text).join('\n\n');
-        const prompt = getRewritePrompt(originalText, version); // Pass angle name
+        const prompt = getRewritePrompt(originalText, version);
 
         const response = await fetch('https://api.x.ai/v1/chat/completions', {
           method: 'POST',
@@ -136,6 +137,10 @@ const ArticlePage = () => {
 
   return (
     <div className="article-page">
+      <h1 className="angles-title">Angles</h1>
+      <hr className="title-divider" />
+      <Link to="/" className="back-link">Tillbaka till nyhetslistan</Link>
+
       <div className="original-section">
         <button 
           onClick={() => setIsOriginalExpanded(!isOriginalExpanded)}
@@ -150,7 +155,7 @@ const ArticlePage = () => {
               section.type === 'header' ? (
                 <h3 key={index}>{section.text}</h3>
               ) : (
-                <p key={index}>{section.text}</p>
+                <p key={index} className="original-paragraph">{section.text}</p>
               )
             ))}
           </div>
@@ -158,22 +163,31 @@ const ArticlePage = () => {
       </div>
 
       <div className="rewritten-section">
-        <Link to="/" className="back-link">Tillbaka till nyhetslistan</Link>
         <div className="summary-section">
-          <h2>Sammanfattning av vinklar</h2>
-          {isLoadingSummary ? (
-            <p>Laddar sammanfattning...</p>
-          ) : (
-            summary && summary.map((section, index) => (
-              section.type === 'list-item' ? (
-                <p key={index} className="summary-list-item">{section.text}</p>
+          <button 
+            onClick={() => setIsSummaryExpanded(!isSummaryExpanded)}
+            className="toggle-button"
+          >
+            {isSummaryExpanded ? 'Dölj Analys av artikeln' : 'Visa Analys av artikeln'}
+          </button>
+          {isSummaryExpanded && (
+            <div>
+              <h2>Sammanfattning av vinklar</h2>
+              {isLoadingSummary ? (
+                <p>Laddar sammanfattning...</p>
               ) : (
-                <p key={index}>{section.text}</p>
-              )
-            ))
+                summary && summary.map((section, index) => (
+                  section.type === 'list-item' ? (
+                    <p key={index} className="summary-list-item">{section.text}</p>
+                  ) : (
+                    <p key={index}>{section.text}</p>
+                  )
+                ))
+              )}
+            </div>
           )}
         </div>
-        <h1>{article.title}</h1>
+        <h2>{article.title}</h2>
         <div className="version-buttons">
           {angles.map((angle) => (
             <button
@@ -200,6 +214,11 @@ const ArticlePage = () => {
           )}
         </div>
       </div>
+
+      <footer className="footer">
+        <hr />
+        <p>© 2025 Sanningsministeriet</p>
+      </footer>
     </div>
   );
 };

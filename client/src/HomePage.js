@@ -14,7 +14,7 @@ const HomePage = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setArticles(data);
+        setArticles(data.slice(0, 25)); // Frontend requests up to 25
       } catch (error) {
         console.error('Error fetching news:', error);
         setArticles([]);
@@ -27,7 +27,8 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <h1>SVT News</h1>
+      <h1 className="angles-title">Angles</h1>
+      <hr className="title-divider" />
       <ul>
         {articles.map((article, index) => (
           <li key={index}>
@@ -38,6 +39,10 @@ const HomePage = () => {
           </li>
         ))}
       </ul>
+      <footer className="footer">
+        <hr />
+        <p>© 2025 Sanningsministeriet</p>
+      </footer>
     </div>
   );
 };

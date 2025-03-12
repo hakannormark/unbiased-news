@@ -1,49 +1,54 @@
 .home-page {
-    max-width: 1150px; /* NYT’s wider content width */
-    margin: 0 auto;
-    padding: 30px 20px;
-    font-family: 'Georgia', serif; /* NYT’s primary font */
-    color: #000; /* Black text */
-    background-color: #fff;
-  }
-  
-  .home-page h1 {
-    font-size: 36px; /* Larger, authoritative headline */
-    font-weight: normal; /* Georgia looks bold enough */
-    line-height: 1.1;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #e2e2e2; /* Subtle NYT-like divider */
-    padding-bottom: 10px;
-  }
-  
-  .home-page ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .home-page li {
-    margin-bottom: 20px;
-  }
-  
-  .home-page a {
-    text-decoration: none;
-    color: #000; /* Black links, no blue */
-  }
-  
-  .home-page a:hover {
-    text-decoration: underline; /* NYT’s subtle hover effect */
-  }
-  
-  .home-page h2 {
-    font-size: 22px; /* Slightly smaller than NYT article titles */
-    font-weight: normal;
-    margin: 0 0 5px;
-    line-height: 1.2;
-  }
-  
-  .home-page p {
-    font-size: 16px;
-    line-height: 1.4; /* Tighter than before for NYT density */
-    color: #666; /* Gray for secondary text */
-    margin: 0;
-  }
+  padding: 20px;
+}
+
+.angles-title {
+  font-size: 2.5em; /* Öka från 2em till 2.5em */
+  margin-bottom: 10px;
+  text-align: center;
+  font-variant: small-caps;
+}
+
+.angles-title::first-letter {
+  text-transform: uppercase;
+}
+
+.title-divider {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 10px 0 20px;
+}
+
+.home-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.home-page li {
+  margin-bottom: 20px;
+}
+
+.home-page h2 {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.home-page p {
+  margin: 5px 0;
+}
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.footer hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.footer p {
+  font-size: 0.9em;
+  color: #666; /* Subtle gray */
+}
