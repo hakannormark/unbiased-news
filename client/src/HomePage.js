@@ -4,26 +4,30 @@ import './HomePage.css';
 
 const HomePage = () => {
   const [articles, setArticles] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-        const response = await fetch(`${API_URL}/api/news`);
+        console.log('Fetching news from: /api/news');
+        const response = await fetch('/api/news'); // Relativ väg
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setArticles(data.slice(0, 25)); // Frontend requests up to 25
+        console.log('Fetched articles:', data);
+        setArticles(data.slice(0, 25));
       } catch (error) {
         console.error('Error fetching news:', error);
+        setError(error.message);
         setArticles([]);
       }
     };
     fetchNews();
   }, []);
 
-  if (!articles) return <div>Loading...</div>;
+  if (articles === null) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="home-page">

@@ -20,8 +20,8 @@ const ArticlePage = () => {
     const fetchArticleAndSummary = async () => {
       try {
         const decodedUrl = decodeURIComponent(url);
-        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-        const response = await fetch(`${API_URL}/api/article?url=${encodeURIComponent(decodedUrl)}`);
+        console.log('Fetching article from: /api/article?url=', decodedUrl);
+        const response = await fetch(`/api/article?url=${encodeURIComponent(decodedUrl)}`); // Relativ väg
         const data = await response.json();
         console.log('Fetched article:', data);
         setArticle(data);
@@ -114,7 +114,7 @@ const ArticlePage = () => {
 
         const angleLabel = `[${version} Perspektiv]`;
         const contentArray = rewrittenText.split('\n\n').map((text, index) => ({
-          type: index === 0 ? 'ingress' : 'paragraph', // Ändra från 'header' till 'ingress'
+          type: index === 0 ? 'ingress' : 'paragraph', // Ingress istället för header
           text: index === 0 ? `${angleLabel} ${text}` : text
         }));
 
@@ -201,18 +201,18 @@ const ArticlePage = () => {
           ))}
         </div>
         <div className="article-content">
-  {isLoadingRewrite ? (
-    <p>Laddar omskrivet innehåll...</p>
-  ) : (
-    rewrittenContent.map((section, index) => (
-      section.type === 'ingress' ? (
-        <p key={index} className="article-ingress">{section.text}</p>
-      ) : (
-        <p key={index}>{section.text}</p>
-      )
-    ))
-  )}
-</div>
+          {isLoadingRewrite ? (
+            <p>Laddar omskrivet innehåll...</p>
+          ) : (
+            rewrittenContent.map((section, index) => (
+              section.type === 'ingress' ? (
+                <p key={index} className="article-ingress">{section.text}</p>
+              ) : (
+                <p key={index}>{section.text}</p>
+              )
+            ))
+          )}
+        </div>
       </div>
 
       <footer className="footer">
