@@ -1,0 +1,7 @@
+{
+    "name": "unbiased-news",
+    "version": "1.0.0",
+    "scripts": {
+      "deploy": "cd client && npm install && npm run build && cp -r build/* ../server/public/ && cd .. && git add . && git commit -m 'Deploy latest changes to Render' && git push origin main"
+    }
+  }

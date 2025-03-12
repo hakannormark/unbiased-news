@@ -34,7 +34,7 @@ app.get('/api/news', async (req, res) => {
       }
     });
 
-    const result = articles.slice(0, 4);
+    const result = articles.slice(0, 25); // Increase from 4 to 25
     res.json(result);
   } catch (error) {
     console.error('Error scraping SVT news list:', error);
