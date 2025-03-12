@@ -114,7 +114,7 @@ const ArticlePage = () => {
 
         const angleLabel = `[${version} Perspektiv]`;
         const contentArray = rewrittenText.split('\n\n').map((text, index) => ({
-          type: index === 0 ? 'header' : 'paragraph',
+          type: index === 0 ? 'ingress' : 'paragraph', // Ändra från 'header' till 'ingress'
           text: index === 0 ? `${angleLabel} ${text}` : text
         }));
 
@@ -201,18 +201,18 @@ const ArticlePage = () => {
           ))}
         </div>
         <div className="article-content">
-          {isLoadingRewrite ? (
-            <p>Laddar omskrivet innehåll...</p>
-          ) : (
-            rewrittenContent.map((section, index) => (
-              section.type === 'header' ? (
-                <h3 key={index}>{section.text}</h3>
-              ) : (
-                <p key={index}>{section.text}</p>
-              )
-            ))
-          )}
-        </div>
+  {isLoadingRewrite ? (
+    <p>Laddar omskrivet innehåll...</p>
+  ) : (
+    rewrittenContent.map((section, index) => (
+      section.type === 'ingress' ? (
+        <p key={index} className="article-ingress">{section.text}</p>
+      ) : (
+        <p key={index}>{section.text}</p>
+      )
+    ))
+  )}
+</div>
       </div>
 
       <footer className="footer">

@@ -3,7 +3,7 @@
 }
 
 .angles-title {
-  font-size: 2.5em; /* Ökad storlek för Angles-rubriken */
+  font-size: 2.5em; /* Större Angles-rubrik */
   margin-bottom: 10px;
   text-align: center;
   font-variant: small-caps; /* Små kapitäler */
@@ -16,7 +16,7 @@
 .title-divider {
   border: 0;
   border-top: 1px solid #ccc;
-  margin: 10px 0 20px; /* Linje under Angles-rubriken */
+  margin: 10px 0 20px; /* Linje under Angles */
 }
 
 .back-link {
@@ -48,14 +48,31 @@
   background-color: #e0e0e0;
 }
 
-.original-content h2, .summary-section h2 {
+.original-content {
+  background-color: #f5f5f5; /* Ljusgrå bakgrund */
+  padding: 15px;
+  border-radius: 4px; /* Lätt rundade hörn */
+}
+
+.original-content h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
 }
 
 .original-paragraph {
-  line-height: 1.6; /* Mer utrymme mellan raderna */
+  line-height: 1.6; /* Mer utrymme mellan rader */
   margin-bottom: 20px; /* Tom rad mellan stycken */
+}
+
+.summary-section > div {
+  background-color: #f5f5f5; /* Ljusgrå bakgrund */
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.summary-section h2 {
+  font-size: 1.2em; /* Mindre rubrik för Sammanfattning av vinklar */
+  margin-bottom: 10px;
 }
 
 .summary-section p, .summary-list-item {
@@ -67,14 +84,20 @@
   margin-left: 20px; /* Indrag för listpunkter */
 }
 
-.article-content h3 {
-  font-size: 1.2em;
-  margin: 10px 0;
+.article-content .article-ingress {
+  font-weight: bold; /* Fet text för ingress */
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 .article-content p {
   line-height: 1.6;
   margin-bottom: 20px;
+}
+
+.article-content h3 {
+  /* Ta bort denna regel eftersom vi inte använder h3 längre */
+  display: none;
 }
 
 .version-buttons {
