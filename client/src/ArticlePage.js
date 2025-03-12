@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getRewritePrompt, getSummaryPrompt } from './grokPrompts'; // Import prompts
+import { getRewritePrompt, getSummaryPrompt, angles } from './grokPrompts'; // Import angles
 import './ArticlePage.css';
 
 const ArticlePage = () => {
   const { url } = useParams();
   const [article, setArticle] = useState(null);
-  const [version, setVersion] = useState('neutral');
+  const [version, setVersion] = useState(angles[0].name); // Default to first angle
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [rewrittenContent, setRewrittenContent] = useState(null);
   const [isLoadingRewrite, setIsLoadingRewrite] = useState(false);
@@ -29,7 +29,7 @@ const ArticlePage = () => {
         if (data.content && GROK_API_KEY) {
           setIsLoadingSummary(true);
           const originalText = data.content.map(section => section.text).join('\n\n');
-          const summaryPrompt = getSummaryPrompt(originalText); // Use imported prompt
+          const summaryPrompt = getSummaryPrompt(originalText);
 
           const summaryResponse = await fetch('https://api.x.ai/v1/chat/completions', {
             method: 'POST',
@@ -85,7 +85,7 @@ const ArticlePage = () => {
       setIsLoadingRewrite(true);
       try {
         const originalText = article.content.map(section => section.text).join('\n\n');
-        const prompt = getRewritePrompt(originalText, version); // Use imported prompt
+        const prompt = getRewritePrompt(originalText, version); // Pass angle name
 
         const response = await fetch('https://api.x.ai/v1/chat/completions', {
           method: 'POST',
@@ -111,9 +111,7 @@ const ArticlePage = () => {
 
         const rewrittenText = data.choices[0]?.message?.content || 'Fel: Inget innehåll returnerades';
 
-        const angleLabel = version === 'left' ? '[Vänsterinriktad Perspektiv]' :
-                          version === 'right' ? '[Högerinriktad Perspektiv]' :
-                          '[Neutralt Perspektiv]';
+        const angleLabel = `[${version} Perspektiv]`;
         const contentArray = rewrittenText.split('\n\n').map((text, index) => ({
           type: index === 0 ? 'header' : 'paragraph',
           text: index === 0 ? `${angleLabel} ${text}` : text
@@ -177,27 +175,16 @@ const ArticlePage = () => {
         </div>
         <h1>{article.title}</h1>
         <div className="version-buttons">
-          <button 
-            onClick={() => setVersion('left')} 
-            className={version === 'left' ? 'active' : ''} 
-            disabled={isLoadingRewrite}
-          >
-            Vänster
-          </button>
-          <button 
-            onClick={() => setVersion('neutral')} 
-            className={version === 'neutral' ? 'active' : ''} 
-            disabled={isLoadingRewrite}
-          >
-            Neutral
-          </button>
-          <button 
-            onClick={() => setVersion('right')} 
-            className={version === 'right' ? 'active' : ''} 
-            disabled={isLoadingRewrite}
-          >
-            Höger
-          </button>
+          {angles.map((angle) => (
+            <button
+              key={angle.name}
+              onClick={() => setVersion(angle.name)}
+              className={version === angle.name ? 'active' : ''}
+              disabled={isLoadingRewrite}
+            >
+              {angle.name}
+            </button>
+          ))}
         </div>
         <div className="article-content">
           {isLoadingRewrite ? (
