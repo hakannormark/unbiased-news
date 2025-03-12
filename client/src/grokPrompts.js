@@ -25,8 +25,14 @@ export const angles = [
   
   // Prompt for summarizing existing angles and narrative elements (unchanged)
   export const getSummaryPrompt = (originalText) => {
-    return `
+    /*return `
       Du är en analytisk journalist som är expert på att identifiera narrativ och vinklar i nyhetsartiklar. Analysera följande artikel och ge en kort sammanfattning (max 200 ord) av vilka vinklar som redan finns i originaltexten (t.ex. vänsterinriktad, neutral, högerinriktad) och hur artikeln använder specifika element för att framhäva sitt narrativ. Fokusera på att bedöma artikelns befintliga ton och budskap, inte på att föreslå nya vinklar. Skriv på samma språk som artikeln (t.ex. svenska om artikeln är på svenska), använd en koncis, professionell ton och formatera svaret med radbrytningar och punktlistor för att lyfta fram nyckelelement (t.ex. "- **Rubrik**: Beskrivning"). Här är artikeln att analysera:
+  
+      "${originalText}"
+    `;*/
+
+    return `
+      bedöm vilken vinkel och vilket narrativ denna artikel försöker föra fram. Presentera din slutsats mycket kortfattat och för fram vad som särskilt styrker din slutsats. Artikeln: 
   
       "${originalText}"
     `;
