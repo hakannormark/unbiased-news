@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const path = require('path');
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 5001;
@@ -17,15 +17,19 @@ app.get('/api/news', async (req, res) => {
 
     const articles = [];
     $('.Feed__root___BOOzQ a[href]').each((i, element) => {
-      const title = $(element).find('.TeaserHeadline__root___kr8ht').text().trim() || 'No title';
+      const titleElement = $(element).find('.TeaserHeadline__root___kr8ht');
+      // Ta bort prefix och hämta bara huvudsaklig titeltext
+      const prefix = titleElement.find('.TeaserHeadline__prefix___VetyL').text().trim();
+      const fullTitle = titleElement.text().trim();
+      const title = fullTitle.replace(prefix, '').trim(); // Ta bort prefix från titeln
       const description = $(element).find('.Text__text-M___FnzEm').text().trim() || 
                          $(element).find('.RightNowFeed__prefix___qa6Q8').text().trim() || 'No description';
       const url = $(element).attr('href');
       const fullUrl = url && url.startsWith('http') ? url : `https://www.svt.se${url || ''}`;
 
-      if (title !== 'No title' && !articles.some(a => a.url === fullUrl)) {
+      if (title && title !== 'No title' && !articles.some(a => a.url === fullUrl)) {
         articles.push({
-          title: title.replace(/^Just nu/, '').trim(),
+          title: title.replace(/^Just nu/, '').trim(), // Behåll borttagning av "Just nu"
           description,
           content: description,
           url: fullUrl
@@ -34,7 +38,7 @@ app.get('/api/news', async (req, res) => {
       }
     });
 
-    const result = articles.slice(0, 25); // Increase from 4 to 25
+    const result = articles.slice(0, 25);
     res.json(result);
   } catch (error) {
     console.error('Error scraping SVT news list:', error);
@@ -42,45 +46,39 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
+// Övriga rutter (t.ex. /api/article) oförändrade...
 app.get('/api/article', async (req, res) => {
   const { url } = req.query;
   if (!url) {
     return res.status(400).json({ error: 'URL parameter is required' });
   }
-
   try {
     const response = await axios.get(url);
     const $ = cheerio.load(response.data);
-
-    const title = $('.TextArticle__heading___tebP2').text().trim() || 
-                  $('.TeaserHeadline__root___kr8ht').first().text().trim() || 'No title';
-    
     const content = [];
-    $('.Lead__root___PJ6pA p').each((i, el) => {
-      const text = $(el).text().trim();
-      if (text) content.push({ type: 'paragraph', text });
-    });
-    $('.TextArticle__body___SZ6MK p').each((i, el) => {
-      const text = $(el).text().trim();
-      if (text) content.push({ type: 'paragraph', text });
-    });
-    $('.TextArticle__body___SZ6MK h2').each((i, el) => {
-      const text = $(el).text().trim();
-      if (text) content.push({ type: 'header', text });
+
+    const headline = $('.ArticleHeader__root___QutIb').text().trim();
+    if (headline) {
+      content.push({ type: 'header', text: headline });
+    }
+
+    $('.RichTextArticleBody__root___mP4Lh p').each((i, element) => {
+      const text = $(element).text().trim();
+      if (text) {
+        content.push({ type: 'paragraph', text });
+      }
     });
 
     res.json({
-      title,
-      content,
-      url
+      title: headline || 'No title',
+      content: content.length ? content : [{ type: 'paragraph', text: 'No content available' }]
     });
   } catch (error) {
-    console.error(`Error scraping article ${url}:`, error.message);
+    console.error('Error scraping article:', error);
     res.status(500).json({ error: 'Failed to scrape article' });
   }
 });
 
-// Serve React frontend from server/public
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
