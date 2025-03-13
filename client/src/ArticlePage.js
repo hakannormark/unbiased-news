@@ -39,7 +39,7 @@ const ArticlePage = () => {
               'Authorization': `Bearer ${GROK_API_KEY}`,
             },
             body: JSON.stringify({
-              model: 'grok-beta',
+              model: 'grok-2-1212',
               messages: [{ role: 'user', content: summaryPrompt }],
               max_tokens: 300,
               temperature: 0.5,
@@ -95,7 +95,7 @@ const ArticlePage = () => {
             'Authorization': `Bearer ${GROK_API_KEY}`,
           },
           body: JSON.stringify({
-            model: 'grok-beta',
+            model: 'grok-2-1212',
             messages: [{ role: 'user', content: prompt }],
             max_tokens: 2000,
             temperature: 0.7,
