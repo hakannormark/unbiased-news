@@ -138,6 +138,7 @@ const ArticlePage = () => {
   return (
     <div className="article-page">
       <h1 className="angles-title">Angles</h1>
+      <p className="angles-byline">Nyheter ur alla vinklar</p>
       <hr className="title-divider" />
       <Link to="/" className="back-link">Tillbaka till nyhetslistan</Link>
 

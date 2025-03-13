@@ -26,20 +26,33 @@ const HomePage = () => {
     fetchNews();
   }, []);
 
-  if (articles === null) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (articles === null) return (
+    <div className="loading">
+      <p>Laddar nyheter...</p>
+    </div>
+  );
+
+  if (error) return (
+    <div className="error-message">
+      <p>Kunde inte hämta nyheter. Försök igen senare.</p>
+      <button onClick={() => window.location.reload()}>Försök igen</button>
+    </div>
+  );
 
   return (
     <div className="home-page">
-      <h1 className="angles-title">Angles</h1>
+      <div className="angles-header">
+        <h1 className="angles-title">Angles</h1>
+        <p className="angles-byline">Nyheter ur alla vinklar</p>
+      </div>
       <hr className="title-divider" />
-      <ul>
+      <ul className="article-list">
         {articles.map((article, index) => (
-          <li key={index}>
+          <li key={index} className="article-item">
             <Link to={`/article/${encodeURIComponent(article.url)}`}>
               <h2>{article.title}</h2>
             </Link>
-            <p>{article.description}</p>
+            <p>{article.description || "Ingen beskrivning tillgänglig."}</p>
           </li>
         ))}
       </ul>

@@ -26,6 +26,12 @@ app.get('/api/news', async (req, res) => {
       const url = $(element).attr('href');
       const fullUrl = url && url.startsWith('http') ? url : `https://www.svt.se${url || ''}`;
 
+      // Skip URLs containing "?inlagg="
+      if (fullUrl.includes('?inlagg=')) {
+        console.log(`Skipped post-like URL: ${fullUrl}`);
+        return; // Continue to the next iteration
+      }
+
       if (title && title !== 'No title' && !articles.some(a => a.url === fullUrl)) {
         articles.push({
           title: title.replace(/^Just nu/, '').trim(),

@@ -13,6 +13,18 @@
   text-transform: uppercase; /* Första bokstaven stor */
 }
 
+.angles-byline {
+  font-size: 0.9em;  /* Gör texten mindre än huvudrubriken */
+  font-weight: normal;
+  font-variant: small-caps;  /* Samma stil som rubriken */
+  text-align: center;
+  margin-top: -10px;  /* Flytta upp den lite närmare rubriken */
+  color: #666;  /* Lite mjukare färg än rubriken */
+  max-width: 50%;  /* Gör den ungefär lika bred som rubriken */
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .title-divider {
   border: 0;
   border-top: 1px solid #ccc;
