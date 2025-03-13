@@ -18,10 +18,9 @@ app.get('/api/news', async (req, res) => {
     const articles = [];
     $('.Feed__root___BOOzQ a[href]').each((i, element) => {
       const titleElement = $(element).find('.TeaserHeadline__root___kr8ht');
-      // Ta bort prefix och hämta bara huvudsaklig titeltext
       const prefix = titleElement.find('.TeaserHeadline__prefix___VetyL').text().trim();
       const fullTitle = titleElement.text().trim();
-      const title = fullTitle.replace(prefix, '').trim(); // Ta bort prefix från titeln
+      const title = fullTitle.replace(prefix, '').trim();
       const description = $(element).find('.Text__text-M___FnzEm').text().trim() || 
                          $(element).find('.RightNowFeed__prefix___qa6Q8').text().trim() || 'No description';
       const url = $(element).attr('href');
@@ -29,7 +28,7 @@ app.get('/api/news', async (req, res) => {
 
       if (title && title !== 'No title' && !articles.some(a => a.url === fullUrl)) {
         articles.push({
-          title: title.replace(/^Just nu/, '').trim(), // Behåll borttagning av "Just nu"
+          title: title.replace(/^Just nu/, '').trim(),
           description,
           content: description,
           url: fullUrl
@@ -46,7 +45,6 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
-// Övriga rutter (t.ex. /api/article) oförändrade...
 app.get('/api/article', async (req, res) => {
   const { url } = req.query;
   if (!url) {
@@ -55,27 +53,46 @@ app.get('/api/article', async (req, res) => {
   try {
     const response = await axios.get(url);
     const $ = cheerio.load(response.data);
-    const content = [];
 
-    const headline = $('.ArticleHeader__root___QutIb').text().trim();
+    // Kontrollera om det är en 404-sida
+    const pageTitle = $('title').text().trim();
+    if (pageTitle.includes('Oj, sidan finns inte!') || pageTitle.includes('Det finns inget på den här sidan')) {
+      return res.status(404).json({ error: 'Article not found on SVT' });
+    }
+
+    const content = [];
+    const headline = $('.TextArticle__heading___tebP2').text().trim(); // Uppdaterad titel-selector
     if (headline) {
       content.push({ type: 'header', text: headline });
     }
 
-    $('.RichTextArticleBody__root___mP4Lh p').each((i, element) => {
+    // Hämta ingress från .Lead__root___PJ6pA
+    $('.Lead__root___PJ6pA p').each((i, element) => {
       const text = $(element).text().trim();
       if (text) {
         content.push({ type: 'paragraph', text });
       }
     });
 
+    // Hämta huvudtext från .TextArticle__body___SZ6MK
+    $('.TextArticle__body___SZ6MK p').each((i, element) => {
+      const text = $(element).text().trim();
+      if (text) {
+        content.push({ type: 'paragraph', text });
+      }
+    });
+
+    if (content.length === 0) {
+      content.push({ type: 'paragraph', text: 'No content available' });
+    }
+
     res.json({
       title: headline || 'No title',
-      content: content.length ? content : [{ type: 'paragraph', text: 'No content available' }]
+      content
     });
   } catch (error) {
-    console.error('Error scraping article:', error);
-    res.status(500).json({ error: 'Failed to scrape article' });
+    console.error('Error scraping article:', error.message);
+    res.status(500).json({ error: `Failed to scrape article: ${error.message}` });
   }
 });
 
