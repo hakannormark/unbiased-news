@@ -2,10 +2,9 @@
 
 // Define angles dynamically (name and description)
 export const angles = [
-    { name: 'Neutral', description: 'neutral vinkel som upprätthåller objektiv rapportering med balanserade fakta, tar bort vinklade ordval och känsloladdat språk, bortser från onödiga åsiktsinslag** och behåll bara fakta, lägger till kontext om fakta saknas, men utan att föra in subjektiva tolkningar' },
-    { name: 'Orginal 180°', description: 'från en exakt motsatt vinkel (180 grader) mot hur du analyserar artikeln med följande metod. Du får inte ändra på fakta eller citat men du får ta bort och lägga till fakta om det är sant.  Analysera följande nyhetsartikel utifrån narrativ och vinkel. Bedöm dess politiska tendens och hur den framställer olika aktörer. Politisk lutning: - Skala (-5 till +5), där -5 är tydligt vänster, 0 är neutral och +5 är tydligt höger.   Saklighet och faktabas:  - Skala (1-5), där 1 är mycket spekulativ och 5 är strikt faktabaserad.    - Finns det överdrifter, partiska ordval eller sakfel?  Påverkansgrad: - Skala (1-5), där 1 är neutral och 5 är starkt opinionsbildande.   - Försöker artikeln påverka läsaren emotionellt?   Politiska vinnare och förlorare:  - Vilka partier, personer eller ideologier framställs i positiv respektive negativ dager?    Sammanfattning av narrativet - Vad är artikelns huvudsakliga budskap?' },
-    { name: 'Vänsterliberal', description: 'samma stil som tidningen Aftonbladet, Arbetet, Flamman eller Dagens ETC hade gjort. Använd samma argument, motiv, vinklingar och narrativ som de brukar använda. Du får inte ändra på fakta eller citat men du får lägga till fakta så länge de är sanna. Du får också ta bort delar ur orginaltexten för att uppnå ditt mål.' },
-    { name: 'Högerkonservativ', description: 'samma stil som tidningen Bulletin, Nya Tider, Fria Tider eller Svenska Dagbladet hade gjort. Använd samma argument, motiv, vinklingar och narrativ som de brukar använda. Du får inte ändra på fakta eller citat men du får lägga till fakta så länge de är sanna. Du får också ta bort delar ur orginaltexten för att uppnå ditt mål.' },
+    { name: 'Neutral', description: 'Rewrite this article in a strictly neutral and objective style, similar to a factual report or a wire service like TT (Tidningarnas Telegrambyrå), dont mentions TTs name in the output. Stick to the core facts of the original text and present them clearly and concisely, without pushing any narrative, agenda, or emotional tone. Do not add or omit information to shape a perspective—include all relevant details from the original while keeping direct quotes and key data intact. Avoid subjective language, speculation, or rhetorical flourishes. The result should feel like a dry, impartial news summary focused solely on informing, not persuading.' },
+   { name: 'Vänsterliberal', description: 'Rewrite this article in the style of a Swedish left-leaning publication like Aftonbladet or Dagens ETC. Dont mention these newspaper names in the output. Craft a narrative that emphasizes social justice, empathy for marginalized groups, and critique of power structures or systemic inequalities, as these outlets typically do. Use their characteristic tone—engaging, emotionally resonant, and slightly polemical—to drive a clear goal: advocating for progressive change or exposing injustice. You may add true, relevant facts to strengthen the narrative, and selectively omit details from the original text that dilute the intended message, as long as the core facts and any direct quotes remain accurate. You may not make up quotes or facts. The result should feel like a compelling, authentic newspaper article that aligns with a left-liberal worldview, not just a rehash of the original.' },
+    { name: 'Högerkonservativ', description: 'Rewrite this article in the style of a Swedish right-leaning publication like Fria Tider or Bulletin. Dont mention these newspaper names in the output. Shape a narrative that highlights threats to national identity, critiques progressive elites or government overreach, and defends traditional values or law-and-order, as these outlets often do. Adopt their typical tone—assertive, alarmist, and skeptical of mainstream consensus—to push a clear agenda: protecting societal stability or exposing hidden agendas. You may include true, relevant facts to reinforce the narrative, and leave out parts of the original text that weaken the intended angle, while keeping core facts and any direct quotes intact. You may not make up quotes or facts. The final piece should read like a convincing, authentic article from a right-wing perspective, not a neutral summary.' },
     // Add more angles here as needed, e.g.:
     // { name: 'Miljö', description: 'miljöfokuserad vinkel som lyfter hållbarhet och klimatåtgärder' },
     // { name: 'Ekonomi', description: 'ekonomisk vinkel som prioriterar marknadslösningar och finansiell stabilitet' },
@@ -17,7 +16,7 @@ export const angles = [
     const angleDescription = angle ? angle.description : 'neutral vinkel som upprätthåller objektiv rapportering med balanserade fakta'; // Fallback
   
     return `
-       Skriv om följande artikel i en professionell journalistisk stil från en ${angleDescription}. Strukturera texten med tydliga stycken. Svara på samma språk som artikeln är skriven på. Returnera den omskrivna texten som en enda sträng med stycken separerade av dubbla radbrytningar (\n\n). Gör texten ungefär lika lång som orginaltexten. Här är artikeln att skriva om:
+        ${angleDescription}. Strukturera texten med tydliga stycken. Svara på samma språk som artikeln är skriven på. Returnera den omskrivna texten som en enda sträng med stycken separerade av dubbla radbrytningar (\n\n). Gör texten ungefär lika lång som orginaltexten. Här är artikeln att skriva om:
   
       "${originalText}"
     `;
@@ -32,29 +31,7 @@ export const angles = [
     `;*/
 
     return `
-      Analysera följande nyhetsartikel utifrån narrativ och vinkel. Bedöm dess politiska tendens och hur den framställer olika aktörer. Besvara enligt följande struktur:
-
-        Politisk lutning:
-        - Skala (-5 till +5), där -5 är tydligt vänster, 0 är neutral och +5 är tydligt höger.  
-        - Motivera betyget kortfattat.
-
-        Saklighet och faktabas:
-        - Skala (1-5), där 1 är mycket spekulativ och 5 är strikt faktabaserad.  
-        - Finns det överdrifter, partiska ordval eller sakfel?
-
-        Påverkansgrad:
-        - Skala (1-5), där 1 är neutral och 5 är starkt opinionsbildande.  
-        - Försöker artikeln påverka läsaren emotionellt?  
-
-        Politiska vinnare och förlorare:
-        - Vilka partier, personer eller ideologier framställs i positiv respektive negativ dager?  
-
-        Sammanfattning av narrativet:
-        - Vad är artikelns huvudsakliga budskap?  
-
-        Returnera analysen i denna struktur, kortfattat och tydligt.
-
-        Här är artikeln:  
+      Analyze this article and provide a concise, fact-based summary of its main angle, narrative, and motive in a short running text of four to five sentences. Capture the most prominent elements with some nuance, using specific examples from the text (like key phrases, emphasized facts, or omissions) to illustrate the perspective, story, and goal. Highlight subtle undertones or biases where evident, while keeping the tone neutral and avoiding speculation or excessive elaboration. The result should clearly outline the article’s intent and approach in a compact, objective way. Write in the same language as the article, eg Swedish.
       "${originalText}"
     `;
   };
