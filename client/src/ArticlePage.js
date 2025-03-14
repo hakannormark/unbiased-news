@@ -42,7 +42,7 @@ const ArticlePage = () => {
               model: 'grok-2-1212',
               messages: [{ role: 'user', content: summaryPrompt }],
               max_tokens: 300,
-              temperature: 0.5,
+              temperature: 0.9,
             }),
           });
 
@@ -98,7 +98,7 @@ const ArticlePage = () => {
             model: 'grok-2-1212',
             messages: [{ role: 'user', content: prompt }],
             max_tokens: 2000,
-            temperature: 0.7,
+            temperature: 0.9,
           }),
         });
 
